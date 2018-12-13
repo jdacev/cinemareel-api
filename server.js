@@ -8,7 +8,8 @@ var passport = require('passport');
 var mongoose = require('mongoose');
 var path = require('path');
 
-//var loginRouter = require('./api/routes/loginRouter');
+var loginRouter = require('./api/routes/loginRouter');
+var signupRouter = require('./api/routes/signupRouter');
 var bodyParser = require('body-parser');
 
 mongoose.Promise = global.Promise;
@@ -37,7 +38,8 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/public/:filePath', express.static(path.join(__dirname, 'public')));
 
 // Mount routes
-//app.use('/api/v1/login', loginRouter);
+app.use('/api/v1/login', loginRouter);
+app.use('/api/v1/signup', signupRouter);
 
 app.use(function (req, res) {
     res.status(404).send({ url: req.originalurl + ' La URI que se ha solicitado no existe.' });

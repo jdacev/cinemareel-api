@@ -1,7 +1,7 @@
 'use strict';
 
 var User = require('./../models/userModel');
-var authHelper = require('./helpers/authHelper');
+//var authHelper = require('./helpers/authHelper');
 var jwt = require('jwt-simple');
 var moment = require('moment');
 
@@ -12,9 +12,9 @@ var moment = require('moment');
  */
 var login = function (req, res) {
 
-    authHelper.login(req, res, function (result) {
-        return res.status(200).json(result);
-    });
+    // authHelper.login(req, res, function (result) {
+    //     return res.status(200).json(result);
+    // });
 }
 
 /**
@@ -25,20 +25,19 @@ var login = function (req, res) {
 var signup = function (req, res) {
 
     // Missing details
-    if (!req.body.email || !req.body.displayName) {
+    if (!req.body.email || !req.body.password) {
         res.status(412);
-        res.send({ message: 'Please enter email, password, and displayName' });
+        res.send({ msg: 'Please enter email and password.' });
     } else {
-        var newUser = new User({
+        var newUser = new User ({
             userName: req.body.userName,
             email: req.body.email,
+            password: req.body.password,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
-            displayName: req.body.displayName,
-            role: 'basic',
+            role: process.env.BASIC_ROLE,
             category: null,
-            subcategory: null,
-            assignedEvaluations: 0
+            subcategory: null
         });
 
         newUser.save(function (err) {
@@ -48,7 +47,7 @@ var signup = function (req, res) {
             }
             else {
                 res.status(201);
-                res.send({ message: 'El Usuario se creó con éxito.' });
+                res.send({ message: 'Bienvenido a CinemaReel!' });
             }
         })
     }
