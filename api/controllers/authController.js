@@ -1,7 +1,7 @@
 'use strict';
 
 var User = require('./../models/userModel');
-//var authHelper = require('./helpers/authHelper');
+var authHelper = require('./helpers/authHelper');
 var jwt = require('jwt-simple');
 var moment = require('moment');
 
@@ -12,9 +12,9 @@ var moment = require('moment');
  */
 var login = function (req, res) {
 
-    // authHelper.login(req, res, function (result) {
-    //     return res.status(200).json(result);
-    // });
+    authHelper.login(req, res, function (result) {
+        return res.status(200).json(result);
+    });
 }
 
 /**
