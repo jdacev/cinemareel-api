@@ -54,7 +54,7 @@ var login = function (req, res, callback) {
                     //pushNotifications.checkOrRegisterDeviceRegistrationId(user, req.body);
                     generateUserData(user, res);
                 } else {
-                    callback({ message: 'La contraseña es incorrecta. Intente nuevamente.', user: {}, errType: 2 });
+                    callback({ message: 'La contraseña es incorrecta. Intente nuevamente.', user: {}, error: err, errType: 2 });
                     return;
                 }
             });
