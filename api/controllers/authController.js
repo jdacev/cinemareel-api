@@ -18,39 +18,15 @@ var login = function (req, res) {
 }
 
 /**
- * Registro de nuevo Usuario
- * @param {*} req
- * @param {*} res
+ * 
+ * @param {*} req 
+ * @param {*} res 
  */
 var signup = function (req, res) {
 
-    // Missing details
-    if (!req.body.email || !req.body.password) {
-        res.status(412);
-        res.send({ msg: 'Please enter email and password.' });
-    } else {
-        var newUser = new User ({
-            userName: req.body.userName,
-            email: req.body.email,
-            password: req.body.password,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            role: process.env.BASIC_ROLE,
-            category: null,
-            subcategory: null
-        });
-
-        newUser.save(function (err) {
-            if (err) {
-                res.status(500);
-                res.send({ message: 'Internal server error', error: err });
-            }
-            else {
-                res.status(201);
-                res.send({ message: 'Bienvenido a CinemaReel!' });
-            }
-        })
-    }
+    authHelper.signup(req, res, function (result) {
+        return res.status(200).json(result);
+    });
 }
 
 

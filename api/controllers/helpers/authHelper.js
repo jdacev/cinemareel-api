@@ -19,11 +19,9 @@ var generateUserData = function (user, res) {
 
     generatedUserData = {
         _id: user.id,
-        userName: user.userName,
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-        displayName: user.displayName,
         role: user.role,
         category: user.category,
         subcategory: user.subcategory
@@ -43,11 +41,11 @@ var login = function (req, res, callback) {
 
     User
         .findOne({
-            userName: req.body.username, status: { $ne: 'removed' }
+            email: req.body.email, status: { $ne: 'removed' }
         })
         .then((user) => {
             if (user == null) {
-                callback({ message: 'El usuario no es válido. Intente nuevamente.', user: {}, errType: 1 });
+                callback({ message: 'El correo electrónico no es válido. Intente nuevamente.', user: {}, errType: 1 });
                 return;
             }
 
@@ -64,6 +62,46 @@ var login = function (req, res, callback) {
         .catch((err) => {
             callback({ message: 'Falló el método de autenticación ', error: err, user: {}, errType: 3 });
         })
+}
+
+/**
+ * Registro de nuevo Usuario
+ * @param {*} req
+ * @param {*} res
+ */
+var signup = function (req, res, callback) {
+    if (!req.body.email || !req.body.password) {
+        //res.status(412);
+        callback({ message: 'Tenes que completar el correo electrónico y la contraseña.', user: {}, errType: 1 });
+        return;
+    } else {
+        var newUser = new User ({
+            email: req.body.email,
+            password: req.body.password,
+            firstName: req.body.firstname,
+            lastName: req.body.lastname,
+            role: process.env.BASIC_ROLE,
+            category: null,
+            subcategory: null
+        });
+
+        newUser.save(function (err) {
+            if (err) {
+                //res.status(500);
+                callback({ message: 'Internal server error', user: {}, errType: 2 });
+                return;
+            } else {
+                //res.status(201);
+                User
+                .findOne({
+                    email: req.body.email, status: { $ne: 'removed' }
+                })
+                .then((user) => {
+                    generateUserData(user, res);
+                })
+            }
+        })
+    }
 }
 
 
@@ -83,6 +121,7 @@ var createToken = function (data) {
 
 module.exports = {
     login: login,
+    signup: signup,
     createToken: createToken,
     generateUserData: generateUserData
 }
