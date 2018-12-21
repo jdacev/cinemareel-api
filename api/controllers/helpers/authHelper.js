@@ -70,16 +70,18 @@ var login = function (req, res, callback) {
  * @param {*} res
  */
 var signup = function (req, res, callback) {
+    
     if (!req.body.email || !req.body.password) {
         //res.status(412);
         callback({ message: 'Tenes que completar el correo electrónico y la contraseña.', user: {}, errType: 1 });
         return;
     } else {
+    
         var newUser = new User ({
             email: req.body.email,
             password: req.body.password,
-            firstName: req.body.firstname,
-            lastName: req.body.lastname,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
             role: process.env.BASIC_ROLE,
             category: null,
             subcategory: null
@@ -88,7 +90,7 @@ var signup = function (req, res, callback) {
         newUser.save(function (err) {
             if (err) {
                 //res.status(500);
-                callback({ message: 'Internal server error', user: {}, errType: 2 });
+                callback({ message: 'Internal server error ' + err, user: {}, errType: 2 });
                 return;
             } else {
                 //res.status(201);
