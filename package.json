@@ -15,7 +15,7 @@
 		"nodemon": "^1.18.8"
 	},
 	"dependencies": {
-		"bcrypt": "^3.0.1",
+		"bcryptjs": "^2.4.3",
 		"dotenv": "^5.0.1",
 		"express": "^4.16.2",
 		"express-fileupload": "^0.3.0",
