@@ -10,7 +10,7 @@ var sendSecurityCode = function(req, res) {
         mailTemplate.subject, 
         mailTemplate.html, mailTemplate.text);
 
-    return res.status(200).json({ msg: 'Correo enviado con éxito.' });
+    return res.status(200).json({ msg: 'El código de seguridad ha sido enviado a su casilla de correo.' });
 }
 
 
