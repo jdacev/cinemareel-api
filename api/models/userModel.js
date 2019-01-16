@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcryptjs = require('bcryptjs');
 
-var userSchema = new Schema({
+var userSchema = new Schema( {
     
     email: {
         type: String,
@@ -26,6 +26,12 @@ var userSchema = new Schema({
       type: String,
       required: true
     },
+    telephone: {
+        type: String
+    },
+    address: {
+        type: String
+    },
     category: {
         type: String
     },
@@ -33,6 +39,9 @@ var userSchema = new Schema({
         type: String
     },
     status: {
+        type: String
+    },
+    accountType: {
         type: String
     },
     mobileDeviceRegistrationId: {
@@ -46,7 +55,7 @@ var userSchema = new Schema({
         uuid: {type: String},
         version: {type: String} 
     }
-});
+} );
 
 
 userSchema.pre('save', function (next) {

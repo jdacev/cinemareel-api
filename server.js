@@ -10,6 +10,7 @@ var path = require('path');
 
 var loginRouter = require('./api/routes/loginRouter');
 var signupRouter = require('./api/routes/signupRouter');
+var utilRouter = require('./api/routes/utilRouter');
 var bodyParser = require('body-parser');
 
 mongoose.Promise = global.Promise;
@@ -40,6 +41,7 @@ app.use('/public/:filePath', express.static(path.join(__dirname, 'public')));
 // Mount routes
 app.use('/api/v1/login', loginRouter);
 app.use('/api/v1/signup', signupRouter);
+app.use('/api/v1/util', utilRouter);
 
 app.use(function (req, res) {
     res.status(404).send({ url: req.originalurl + ' La URI que se ha solicitado no existe.' });
@@ -47,4 +49,4 @@ app.use(function (req, res) {
 
 app.listen(port);
 
-console.log('Ejecutándose... en: ' + port);
+console.log('CinemaReel ejecutándose... en: ' + port);
