@@ -5,5 +5,6 @@ var utilCtrl = require('../controllers/utilController');
 var utilRouter = express.Router();
 
 utilRouter.route('/securitycode').post(utilCtrl.sendSecurityCode);
+utilRouter.route('/verifysecuritycode').post(utilCtrl.verifySecurityCode);
 
 module.exports = utilRouter;
