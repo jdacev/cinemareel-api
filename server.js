@@ -11,6 +11,7 @@ var path = require('path');
 var loginRouter = require('./api/routes/loginRouter');
 var signupRouter = require('./api/routes/signupRouter');
 var utilRouter = require('./api/routes/utilRouter');
+var profileRouter = require('./api/routes/profileRouter');
 var bodyParser = require('body-parser');
 
 mongoose.Promise = global.Promise;
@@ -42,6 +43,7 @@ app.use('/public/:filePath', express.static(path.join(__dirname, 'public')));
 app.use('/api/v1/login', loginRouter);
 app.use('/api/v1/signup', signupRouter);
 app.use('/api/v1/util', utilRouter);
+app.use('/api/v1/profile', profileRouter);
 
 app.use(function (req, res) {
     res.status(404).send({ url: req.originalurl + ' La URI que se ha solicitado no existe.' });

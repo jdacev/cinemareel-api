@@ -1,6 +1,5 @@
 'use strict';
 
-var User = require('./../models/userModel');
 var authHelper = require('./helpers/authHelper');
 var jwt = require('jwt-simple');
 var moment = require('moment');
