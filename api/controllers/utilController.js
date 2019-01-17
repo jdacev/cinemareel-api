@@ -3,6 +3,7 @@
 var mailHelper = require('./helpers/mailHelper');
 var mailTemplateHelper = require('./helpers/mailTemplateHelper');
 var User = require('../models/userModel');
+var bcryptjs = require('bcryptjs');
 
 
 function generateSecurityCode () {
@@ -25,18 +26,44 @@ var verifySecurityCode = function(req, res){
     .findOne({ email: req.body.email })
     .then( (user) => {
         if(!user){
-            return res.status(200).json({ message: 'El correo electrónico no es válido.' });
+            return res.status(200).json({ errType: 1, message: 'El correo electrónico no es válido.' });
         }
         if(user.securityCode == req.body.securityCode){
-            return res.status(200).json({ message: 'Código de seguridad valido.' });
+            return res.status(200).json({ errType: 0, message: 'Código de seguridad valido.' });
         } else {
-            return res.status(401).json({ message: 'El código de seguridad que ingresó es inválido.' });
+            return res.status(200).json({ errType: 2, message: 'El código de seguridad que ingresó es inválido.' });
         }
     })
 }
 
 var restorePassword = function(req, res){
 
+    encryptPassword(req.body.password, function(data){
+        var newPassword = data;
+        
+        User
+        .findOneAndUpdate({ email: req.body.email },
+            { $set: {securityCode: null, password: newPassword} },
+            { new: true }, 
+            function (err, user) {
+                if(err || !user){
+                    return res.status(401).json({ errType: 1, message: 'Se produjo un error restableciendo la contraseña. Intente nuevamente. ' + err });
+                }else{
+                    return res.status(200).json({ errType: 0, message: 'La contraseña se restableció con éxito!' });
+                }
+        })
+        .catch((err) => {
+            return res.status(401).json({ errType: 2, message: 'Se produjo un error buscando el usuario ' + err });
+        });
+    })
+}
+
+var encryptPassword = function(password, callback) {
+    bcryptjs.genSalt(10, function (err, salt) {
+        bcryptjs.hash(password, salt, function (err, hash) {
+            callback(hash);
+        });
+    })
 }
 
 
