@@ -41,7 +41,6 @@ var isLoginRequired = function (req, res, next){
             var token = req.headers.authorization.split(' ')[1];
             try {
                 var tokenData = jwt.decode(token, process.env.JWT_SECRET, false);
-
                 req.user = { user: tokenData.user };
 
                 if (tokenData.exp <= moment().unix()) {
@@ -49,7 +48,7 @@ var isLoginRequired = function (req, res, next){
                         message: 'Las credenciales han expirado. Deberá ingresar nuevamente a la aplicación.'
                     } );
                 } else {
-                    if(tokenData.userName) {
+                    if(tokenData.email) {
                         next();
                     } else {
                         return res.status(401).json({ message: 'Usuario no autorizado. Sin privilegios de usuario' });
