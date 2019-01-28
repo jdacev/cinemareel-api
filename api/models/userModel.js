@@ -35,12 +35,10 @@ var userSchema = new Schema( {
     address: {
         type: String
     },
-    category: {
-        type: String
-    },
-    subcategory: {
-        type: String
-    },
+    category: [{
+        type: Schema.ObjectId,
+        ref: 'Category'
+    }],
     status: {
         type: String
     },
@@ -57,6 +55,15 @@ var userSchema = new Schema( {
         serial: {type: String},
         uuid: {type: String},
         version: {type: String} 
+    },
+    createdDate: {
+        type: Date
+    },
+    modifiedDate: {
+        type: Date
+    },
+    birthDate: {
+        type: Date
     }
 } );
 

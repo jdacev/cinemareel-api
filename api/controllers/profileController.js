@@ -20,7 +20,7 @@ var getProfile = function(req, res) {
 }
 
 var updateProfile = function (req, res) {
-    console.log(req.body);
+    
     User
     .findOneAndUpdate( {email: req.body.email}, req.body, function(err) {
         if(err){
