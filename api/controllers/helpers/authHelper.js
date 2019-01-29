@@ -23,8 +23,7 @@ var generateUserData = function (user, res) {
         firstName: user.firstName,
         lastName: user.lastName,
         role: user.role,
-        category: user.category,
-        subcategory: user.subcategory
+        category: user.category
     }
 
     var token = 'JWT ' + createToken(generatedUserData);
@@ -83,8 +82,7 @@ var signup = function (req, res, callback) {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             role: process.env.BASIC_ROLE,
-            category: null,
-            subcategory: null
+            category: null
         });
 
         newUser.save(function (err) {
